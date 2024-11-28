@@ -1,0 +1,16 @@
+{
+    "name": "@isolate/backend",
+    "version": "0.1.0",
+    "description": "Backend using Deno, Hono, and Rust isolates",
+    "permissions": {
+      "read": ["./isolates/"],
+      "ffi": ["../rust/target/release/librust.dylib"]
+    },
+    "tasks": {
+      "start": "deno run --allow-net --allow-read --allow-ffi main.ts"
+    },
+    "imports": {
+        "hono": "npm:hono@^4.6.12"
+    }
+  }
+  

@@ -2,7 +2,7 @@
 
 This is a backend app driven by Rust and Hono.
 
-# Setup steps
+# To Start
 
-1. `cargo new --lib rust` && `cd rust`
-2. `cargo add deno_core serde_json`
+1. `cd rust` and run `cargo build --release`
+2. `cd deno` and run `deno task start`
