@@ -7,7 +7,7 @@
       "ffi": ["../rust/target/release/librust.dylib"]
     },
     "tasks": {
-      "start": "deno run --allow-net --allow-read --allow-ffi main.ts"
+      "start": "deno run --watch --allow-net --allow-read --allow-ffi main.ts"
     },
     "imports": {
         "hono": "npm:hono@^4.6.12"
