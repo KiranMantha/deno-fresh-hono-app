@@ -5,6 +5,7 @@ export async function runOperationInIsolate(
   operationName: string,
   payload: Record<string, unknown>
 ) {
+  let result = "";
   try {
     const handlerFn = await loadOperation(operationName);
     const jsCode = `
@@ -27,7 +28,6 @@ export async function runOperationInIsolate(
     }
     // Now, we can assume the pointer points to a valid memory block
     const resultMemory = new Deno.UnsafePointerView(resultPointer);
-    let result = "";
     let offset = 0;
     while (true) {
       const byte = resultMemory.getUint8(offset++);
@@ -35,9 +35,9 @@ export async function runOperationInIsolate(
       result += String.fromCharCode(byte);
     }
     console.log("result in deno", result);
-    return result;
   } catch (error) {
+    result = '{"error":"Requested operation not found"}';
     console.error("Error executing operation in isolate:", error);
   }
-  return "{}";
+  return result;
 }

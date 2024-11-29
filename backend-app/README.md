@@ -15,3 +15,12 @@ Linux/macOS: librust.so
 Windows: librust.dll
 macOS (newer versions): librust.dylib
 If you're on Windows or macOS, update the Deno FFI path in main.ts accordingly.
+
+# Example apis:
+
+below example assume
+
+1. GET http://localhost:3000/api/sample?name=testU
+2. curl -X POST http://localhost:3000/api/sample \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Deno User"}'
