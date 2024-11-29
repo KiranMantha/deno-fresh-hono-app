@@ -1,17 +1,18 @@
 import { loadOperation } from "./loadOperation.ts";
-import { rustLib } from "./rustLib.ts"; // Assume this is set up for FFI
+import { rustLib } from "./rustLib.ts";
 
-export async function runOperationInIsolate(operationName: string, payload: Record<string, unknown>) {
+export async function runOperationInIsolate(
+  operationName: string,
+  payload: Record<string, unknown>
+) {
   try {
     const handlerFn = await loadOperation(operationName);
-    //TODO: add async await support
     const jsCode = `
-        globalThis.handler = function (payload) {
+        globalThis.handler = async function (payload) {
             const parsedPayload = JSON.parse(payload);
-            return (${handlerFn.toString()})(parsedPayload);
+            return await (${handlerFn.toString()})(parsedPayload);
         };
     `;
-    console.log('JS logic', jsCode);
     const payloadStr = JSON.stringify(payload);
     const resultPointer = rustLib.symbols.run_isolate(
       new TextEncoder().encode(jsCode),
@@ -38,5 +39,5 @@ export async function runOperationInIsolate(operationName: string, payload: Reco
   } catch (error) {
     console.error("Error executing operation in isolate:", error);
   }
-  return '{}';
+  return "{}";
 }
