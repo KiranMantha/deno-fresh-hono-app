@@ -10,6 +10,7 @@
       "start": "deno run --watch --allow-net --allow-read --allow-ffi main.ts"
     },
     "imports": {
+        "@hono/prometheus": "npm:@hono/prometheus@^1.0.1",
         "hono": "npm:hono@^4.6.12"
     }
   }
