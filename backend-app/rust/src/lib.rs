@@ -1,10 +1,17 @@
-use std::ffi::{CString};
+use std::ffi::CString;
 use std::os::raw::c_char;
 use std::ptr;
 use v8::{
-    Context, ContextOptions, CreateParams, Function, HandleScope, Isolate, Local, Promise,
-    PromiseState, String as V8String, V8,
+    Context, ContextOptions, CreateParams, Function, HandleScope, Isolate, Local, OomDetails, Promise, PromiseState, String as V8String, V8
 };
+
+extern "C" fn handle_oom(_isolate_ptr: *const i8, details: &OomDetails) {
+    println!("Out of memory in the isolate!");
+
+    // Note: The isolate pointer can be cast to access additional isolate information if needed.
+    // However, for this context, accessing the heap details might be limited.
+    println!("OOM details: {:?}", details.detail); // Print available details (usually minimal)
+}
 
 #[no_mangle]
 pub extern "C" fn run_isolate(
@@ -48,8 +55,13 @@ pub extern "C" fn run_isolate(
         V8::initialize();
     });
 
-    // Create a new isolate for each call to ensure no global state issues.
-    let mut isolate = Isolate::new(CreateParams::default());
+    // Create a new isolate for each call to ensure no global state issues with min: 16MB, max: 128MB of heap size or RAM
+    let params = CreateParams::default().heap_limits(16 * 1024 * 1024, 128 * 1024 * 1024);
+    let mut isolate = Isolate::new(params);
+
+    // Handle Out-Of-Memory issue
+    isolate.set_oom_error_handler(handle_oom);
+
     let result_ptr = {
         let handle_scope = &mut HandleScope::new(&mut isolate);
         let context_options = ContextOptions::default();
@@ -84,11 +96,12 @@ pub extern "C" fn run_isolate(
         let result = match handler_fn.call(scope, global_obj.into(), args) {
             Some(r) => r,
             None => {
-                let error_message = v8::String::new(scope, "Error calling handler function").unwrap();
+                let error_message =
+                    v8::String::new(scope, "Error calling handler function").unwrap();
                 // return error_message.into_raw();
-                let error_message_str = error_message.to_rust_string_lossy(scope);  // Convert v8::String to Rust String
-                let c_string = CString::new(error_message_str).unwrap();            // Convert to CString
-                return c_string.into_raw();   
+                let error_message_str = error_message.to_rust_string_lossy(scope); // Convert v8::String to Rust String
+                let c_string = CString::new(error_message_str).unwrap(); // Convert to CString
+                return c_string.into_raw();
             }
         };
 
@@ -97,9 +110,7 @@ pub extern "C" fn run_isolate(
             let promise = Local::<Promise>::try_from(result).unwrap();
             match promise.state() {
                 PromiseState::Fulfilled => promise.result(scope),
-                PromiseState::Rejected => {
-                    V8String::new(scope, "Promise rejected").unwrap().into()
-                }
+                PromiseState::Rejected => V8String::new(scope, "Promise rejected").unwrap().into(),
                 _ => V8String::new(scope, "Promise unresolved").unwrap().into(),
             }
         } else {
