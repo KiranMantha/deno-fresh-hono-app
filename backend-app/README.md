@@ -24,6 +24,10 @@ If you're on Windows or macOS, update the Deno FFI path in main.ts accordingly.
      -H "Content-Type: application/json" \
      -d '{"name": "Deno User"}'
 
+# Metrics endpoint output:
+
+![Metrics collected by @hono/prometheus package](image.png)
+
 ## To add / remove packages:
 
 ### in Deno
