@@ -7,17 +7,11 @@ export async function runOperationInIsolate(
 ) {
   let result = "";
   try {
-    const handlerFn = await loadOperation(operationName);
-    const jsCode = `
-        globalThis.handler = async function (payload) {
-            const parsedPayload = JSON.parse(payload);
-            return await (${handlerFn.toString()})(parsedPayload);
-        };
-    `;
+    const handlerCode = await loadOperation(operationName);
     const payloadStr = JSON.stringify(payload);
     const resultPointer = rustLib.symbols.run_isolate(
-      new TextEncoder().encode(jsCode),
-      jsCode.length,
+      new TextEncoder().encode(handlerCode),
+      handlerCode.length,
       new TextEncoder().encode(payloadStr),
       payloadStr.length
     );

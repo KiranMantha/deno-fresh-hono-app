@@ -7,10 +7,12 @@
       "ffi": ["../rust/target/release/librust.dylib"]
     },
     "tasks": {
-      "start": "deno run --watch --allow-net --allow-read --allow-ffi main.ts"
+      "start": "deno run --watch --allow-net --allow-read --allow-ffi main.ts",
+      "build": "deno run --allow-read --allow-write --allow-env --allow-net --allow-run build.ts"
     },
     "imports": {
         "@hono/prometheus": "npm:@hono/prometheus@^1.0.1",
+        "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",
         "hono": "npm:hono@^4.6.12"
     }
   }

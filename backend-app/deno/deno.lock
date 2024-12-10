@@ -1,8 +1,31 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@luca/esbuild-deno-loader@~0.11.1": "0.11.1",
+    "jsr:@std/bytes@^1.0.2": "1.0.4",
+    "jsr:@std/encoding@^1.0.5": "1.0.5",
+    "jsr:@std/path@^1.0.6": "1.0.8",
     "npm:@hono/prometheus@^1.0.1": "1.0.1_hono@4.6.12_prom-client@15.1.3",
     "npm:hono@^4.6.12": "4.6.12"
+  },
+  "jsr": {
+    "@luca/esbuild-deno-loader@0.11.1": {
+      "integrity": "dc020d16d75b591f679f6b9288b10f38bdb4f24345edb2f5732affa1d9885267",
+      "dependencies": [
+        "jsr:@std/bytes",
+        "jsr:@std/encoding",
+        "jsr:@std/path"
+      ]
+    },
+    "@std/bytes@1.0.4": {
+      "integrity": "11a0debe522707c95c7b7ef89b478c13fb1583a7cfb9a85674cd2cc2e3a28abc"
+    },
+    "@std/encoding@1.0.5": {
+      "integrity": "ecf363d4fc25bd85bd915ff6733a7e79b67e0e7806334af15f4645c569fefc04"
+    },
+    "@std/path@1.0.8": {
+      "integrity": "548fa456bb6a04d3c1a1e7477986b6cffbce95102d0bb447c67c4ee70e0364be"
+    }
   },
   "npm": {
     "@hono/prometheus@1.0.1_hono@4.6.12_prom-client@15.1.3": {
@@ -43,6 +66,11 @@
   "remote": {
     "https://deno.land/std@0.224.0/async/delay.ts": "f90dd685b97c2f142b8069082993e437b1602b8e2561134827eeb7c12b95c499",
     "https://deno.land/std@0.224.0/http/server.ts": "f9313804bf6467a1704f45f76cb6cd0a3396a3b31c316035e6a4c2035d1ea514",
+    "https://deno.land/x/denoflate@1.2.1/mod.ts": "f5628e44b80b3d80ed525afa2ba0f12408e3849db817d47a883b801f9ce69dd6",
+    "https://deno.land/x/denoflate@1.2.1/pkg/denoflate.js": "b9f9ad9457d3f12f28b1fb35c555f57443427f74decb403113d67364e4f2caf4",
+    "https://deno.land/x/denoflate@1.2.1/pkg/denoflate_bg.wasm.js": "d581956245407a2115a3d7e8d85a9641c032940a8e810acbd59ca86afd34d44d",
+    "https://deno.land/x/esbuild@v0.20.1/mod.js": "d50e500b53ce67e31116beba3916b0f9275c0e1cc20bc5cadc0fc1b7a3b06fd9",
+    "https://deno.land/x/esbuild@v0.24.0/mod.js": "15b51f08198c373555700a695b6c6630a86f2c254938e81be7711eb6d4edc74e",
     "https://deno.land/x/hono@v4.3.11/client/client.ts": "dcda3887257fa3164db7b32c56665c6e757f0ef047a14f3f9599ef41725c1525",
     "https://deno.land/x/hono@v4.3.11/client/index.ts": "30def535310a37bede261f1b23d11a9758983b8e9d60a6c56309cee5f6746ab2",
     "https://deno.land/x/hono@v4.3.11/client/types.ts": "73fbec704cf968ca5c5bba10aa1131758c52ab31a78301451c79cfc47368d43c",
@@ -91,6 +119,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@luca/esbuild-deno-loader@~0.11.1",
       "npm:@hono/prometheus@^1.0.1",
       "npm:hono@^4.6.12"
     ]
