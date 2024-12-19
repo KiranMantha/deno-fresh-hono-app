@@ -32,16 +32,16 @@ isolatesApp.get('/metrics', printMetrics);
 isolatesApp.post('/api/:operation', async c => {
   const operation = c.req.param('operation');
   const payload = await c.req.json(); // Assuming JSON payload
-  // getIsolateByName(`${operation}.js`);
-  const result = await runOperationInIsolate(operation, payload);
+  const operationCode = getIsolateByName(`${operation}.js`);
+  const result = runOperationInIsolate(operationCode, payload);
   return c.json({ result: JSON.parse(result) });
 });
 
-isolatesApp.get('/api/:operation', async c => {
+isolatesApp.get('/api/:operation', c => {
   const operation = c.req.param('operation');
   const name = c.req.query('name');
-  getIsolateByName(`${operation}.js`);
-  const result = await runOperationInIsolate(operation, { name });
+  const operationCode = getIsolateByName(`${operation}.js`);
+  const result = runOperationInIsolate(operationCode, { name });
   return c.json({ result: JSON.parse(result) });
 });
 

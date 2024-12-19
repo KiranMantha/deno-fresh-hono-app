@@ -18,7 +18,7 @@ export const insertIsolate = (name: string, content: string) => {
   db.query(`INSERT INTO files (name, content) VALUES (:name, :content)`, { name, content });
 };
 
-export const getIsolateByName = (name: string) => {
+export const getIsolateByName = (name: string): string => {
   const [content] = db.query('SELECT content FROM files WHERE name = :name', { name });
-  return content[0] || '';
+  return (content[0] as string) || '';
 };
