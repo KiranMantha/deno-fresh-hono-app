@@ -36,6 +36,7 @@ const FileUpload = ({
   onFileUpload: (fileDetails: { fileName: string; fileContent: string }) => void;
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const isDisabled = !(state.fileName || state.fileContent);
 
   const handleFileChange = (event: Event) => {
     const target = event.target as HTMLInputElement;
@@ -75,24 +76,22 @@ const FileUpload = ({
         className="w-full bg-input text-input border border-primary rounded-lg p-2 mb-4"
         onChange={handleFileChange}
       />
-      {state.fileName ? (
-        <div>
-          <p>File Name: {state.fileName}</p>
-          <h4>File Contents:</h4>
-          <pre>{state.fileContent}</pre>
-        </div>
-      ) : null}
-      <div class="flex justify-end">
+      <div class="flex justify-end gap-4">
         <Button
-          disabled={!(state.fileName || state.fileContent)}
-          className="bg-green-700 text-white px-4 py-2 rounded-lg mr-2"
+          disabled={isDisabled}
+          className={`bg-sky-500 hover:bg-sky-700 px-4 py-2 rounded-lg font-semibold text-white ${
+            isDisabled ? 'disabled:bg-sky-300' : ''
+          }`}
           onClick={() => {
             onFileUpload(state);
           }}
         >
           Upload
         </Button>
-        <Button className="bg-amber-700 text-white px-4 py-2 rounded-lg" onClick={resetFile}>
+        <Button
+          className="bg-red-500 hover:bg-red-700 px-4 py-2 rounded-lg font-semibold text-white"
+          onClick={resetFile}
+        >
           Reset
         </Button>
       </div>

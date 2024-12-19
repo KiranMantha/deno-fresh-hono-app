@@ -1,19 +1,20 @@
 {
-    "name": "@isolate/backend",
-    "version": "0.1.0",
-    "description": "Backend using Deno, Hono, and Rust isolates",
-    "permissions": {
-      "read": ["./isolates/"],
-      "ffi": ["../rust/target/release/librust.dylib"]
-    },
-    "tasks": {
-      "start": "deno run --watch --allow-net --allow-read --allow-ffi main.ts",
-      "build": "deno run --allow-read --allow-write --allow-env --allow-net --allow-run build.ts"
-    },
-    "imports": {
-        "@hono/prometheus": "npm:@hono/prometheus@^1.0.1",
-        "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",
-        "hono": "npm:hono@^4.6.12"
-    }
+  "name": "@isolate/backend",
+  "version": "0.1.0",
+  "description": "Backend using Deno, Hono, and Rust isolates",
+  "permissions": {
+    "read": ["./isolates/"],
+    "ffi": ["../rust/target/release/librust.dylib"]
+  },
+  "exports": "./mod.ts",
+  "tasks": {
+    "start": "deno run --watch --allow-net --allow-read --allow-write --allow-ffi --unstable-ffi --allow-env=DENO_SQLITE_PATH,DENO_SQLITE_LOCAL,DENO_DIR,HOME main.ts",
+    "build": "deno run --allow-read --allow-write --allow-env --allow-net --allow-run build.ts"
+  },
+  "imports": {
+    "@hono/prometheus": "npm:@hono/prometheus@^1.0.1",
+    "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",
+    "hono": "npm:hono@^4.6.12",
+    "deno-sqlite": "https://deno.land/x/sqlite/mod.ts"
   }
-  
+}
