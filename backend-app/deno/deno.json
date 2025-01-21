@@ -11,10 +11,14 @@
     "start": "deno run --watch --allow-net --allow-read --allow-write --allow-ffi --unstable-ffi --allow-env=DENO_SQLITE_PATH,DENO_SQLITE_LOCAL,DENO_DIR,HOME main.ts",
     "build": "deno run --allow-read --allow-write --allow-env --allow-net --allow-run build.ts"
   },
+  "nodeModulesDir": "auto",
   "imports": {
     "@hono/prometheus": "npm:@hono/prometheus@^1.0.1",
     "@luca/esbuild-deno-loader": "jsr:@luca/esbuild-deno-loader@^0.11.1",
+    "@supabase/supabase-js": "jsr:@supabase/supabase-js@^2.48.0",
+    "bufferutil": "npm:bufferutil@^4.0.9",
     "hono": "npm:hono@^4.6.12",
-    "deno-sqlite": "https://deno.land/x/sqlite/mod.ts"
+    "deno-sqlite": "https://deno.land/x/sqlite/mod.ts",
+    "utf-8-validate": "npm:utf-8-validate@^6.0.5"
   }
 }
